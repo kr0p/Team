@@ -32,6 +32,8 @@ public class ChessServer extends AbstractServer {
 	    //Set the log and status objects to the current objects in the ServerGUI class.
 	    setLog(ServerGUI.getLog());
 	    setStatus(ServerGUI.getStatus());
+		System.out.println("test for committing");
+
 	}
 
 	@Override
@@ -59,6 +61,7 @@ public class ChessServer extends AbstractServer {
 		//Update the status label to notify the user that the server is listening.
 	    status.setText("Listening");
 	    status.setForeground(Color.GREEN);
+	    
 	    
 	    //Append a user notification to the Server Log.
 	    log.append("Server Started\n");
@@ -134,5 +137,4 @@ public class ChessServer extends AbstractServer {
 	public void setStatus(JLabel status) {
 		this.status = ServerGUI.getStatus();
 	}
-
 }
