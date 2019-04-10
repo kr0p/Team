@@ -55,9 +55,7 @@ public class ChessTable {
         this.gameFrame = new JFrame();
         this.gameFrame.setLayout(new BorderLayout());
         final JMenuBar tableMenuBar = populateMenuBar();
-        final JMenu preferences = createPreferencesMenu();
         this.gameFrame.setJMenuBar(tableMenuBar);
-        tableMenuBar.add(preferences);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
         this.chessboard = board;
         this.gameHistoryPanel = new GameHistoryPanel();
@@ -150,16 +148,6 @@ public class ChessTable {
         System.out.println("------------------------------>\n");
 
         final JMenu fileMenu = new JMenu("File");
-        final JMenuItem openPGN = new JMenuItem("Load PGN File");
-
-        openPGN.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("open the PGN file");
-            }
-        });
-        fileMenu.add(openPGN);
-
         final JMenuItem exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -172,23 +160,6 @@ public class ChessTable {
         return fileMenu;
     }
 
-    private JMenu createPreferencesMenu(){
-        System.out.println("INSIDE ChessTable: createPreferencesMenu()");
-        System.out.println("------------------------------>\n");
-
-        final JMenu preferencesMenu = new JMenu("Preferences");
-        final JCheckBoxMenuItem legalMoveHighlighterCheckbox = new JCheckBoxMenuItem("Highlight Legal Moves", false);
-
-        legalMoveHighlighterCheckbox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                highlightLegalMoves = legalMoveHighlighterCheckbox.isSelected();
-            }
-        });
-        preferencesMenu.add(legalMoveHighlighterCheckbox);
-
-        return preferencesMenu;
-    }
 
     public class BoardPanel extends JPanel{
 		private static final long serialVersionUID = 1L;
