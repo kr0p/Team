@@ -32,7 +32,7 @@ public class ChessServer extends AbstractServer {
 	    //Set the log and status objects to the current objects in the ServerGUI class.
 	    setLog(ServerGUI.getLog());
 	    setStatus(ServerGUI.getStatus());
-		System.out.println("test for committing to development12");
+		System.out.println("test for committing to development1");
 
 	}
 
