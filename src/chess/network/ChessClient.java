@@ -94,12 +94,12 @@ public class ChessClient extends AbstractClient {
 		if(arg0 instanceof MoveLog) {
 			setMoveLog((MoveLog) arg0);
 		}
-		if(arg0 instanceof Long) {
-			if((Long) arg0 == 21) {
+		if(arg0 instanceof Integer) {
+			if((Integer) arg0 == 1) {
 				this.isWhite = true;
 				this.isBlack = false;
 			}
-			if((Long) arg0 == 22) {
+			if((Integer) arg0 == 2) {
 				this.isWhite = false;
 				this.isBlack = true;
 			}

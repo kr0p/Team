@@ -109,10 +109,12 @@ public class ChessServer extends AbstractServer {
 			playersNum++;
 		System.out.println(playersNum);
 		
-		try {
-			client.sendToClient(client.getId());
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		if(playersNum <= 2) {
+			try {
+				client.sendToClient(playersNum);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		if(playersNum == 2 && allConnected == false) {
