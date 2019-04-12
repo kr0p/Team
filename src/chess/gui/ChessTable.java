@@ -397,13 +397,13 @@ public class ChessTable {
                 BoardUtils.THIRD_ROW[this.tileID] ||
                 BoardUtils.FIFTH_ROW[this.tileID] ||
                 BoardUtils.SEVENTH_ROW[this.tileID]){
-                setBackground(this.tileID % 2 == 0 ? Color.LIGHT_GRAY : Color.DARK_GRAY);
+                setBackground(this.tileID % 2 == 0 ? Color.DARK_GRAY : Color.LIGHT_GRAY);
             }
             else if(BoardUtils.SECOND_ROW[this.tileID] ||
                     BoardUtils.FOURTH_ROW[this.tileID] ||
                     BoardUtils.SIXTH_ROW[this.tileID] ||
                     BoardUtils.EIGHTH_ROW[this.tileID]){
-                setBackground(this.tileID % 2 != 0 ? Color.LIGHT_GRAY : Color.DARK_GRAY);
+                setBackground(this.tileID % 2 != 0 ? Color.DARK_GRAY : Color.LIGHT_GRAY);
             }
         }
 
