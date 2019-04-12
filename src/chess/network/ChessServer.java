@@ -32,6 +32,8 @@ public class ChessServer extends AbstractServer {
 	    //Set the log and status objects to the current objects in the ServerGUI class.
 	    setLog(ServerGUI.getLog());
 	    setStatus(ServerGUI.getStatus());
+		System.out.println("test for committing to development");
+
 	}
 
 	@Override
@@ -60,9 +62,38 @@ public class ChessServer extends AbstractServer {
 	    status.setText("Listening");
 	    status.setForeground(Color.GREEN);
 	    
+	    
 	    //Append a user notification to the Server Log.
 	    log.append("Server Started\n");
 	    this.board = Board.createInitialBoard();
+	}
+	
+	//If the server has been stopped update the log and status 
+	public void serverStopped()
+	{
+		log.append("Server Stopped Accepting New Clients - "
+				+ "Press Listen to Start Accepting New Clients\n");
+		status.setText("Stopped");
+		status.setForeground(Color.RED);
+	}
+
+	//If the server has been closed update the log and status
+	protected void serverClosed()
+	{
+		log.append("Server and All Current Clients are Closed - Press Listen to Restart\n");
+		status.setText("Close");
+		status.setForeground(Color.RED);
+	}
+	
+	//If there is a listening exception error print the error and update the log and status
+	protected void listeningException(Throwable exception) 
+	{
+		log.append("Listening Exception: " + exception);
+		exception.printStackTrace();
+
+		log.append("Press Listen to Restart Server\n");
+		status.setText("Exception Occurred when Listening");
+		status.setForeground(Color.RED);
 	}
 	
 	@Override
@@ -106,5 +137,4 @@ public class ChessServer extends AbstractServer {
 	public void setStatus(JLabel status) {
 		this.status = ServerGUI.getStatus();
 	}
-
 }

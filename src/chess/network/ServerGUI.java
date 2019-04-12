@@ -41,6 +41,7 @@ public class ServerGUI extends JFrame{
 	private static int port;
 	private static int timeout;
 	private ChessServer server;
+	private static boolean flag;
 	
 	public static void main(String[] args) {
 		new ServerGUI();
@@ -49,6 +50,7 @@ public class ServerGUI extends JFrame{
 	public ServerGUI() {
 		this.setTitle("Chess Server");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		flag = false;
 		
 		//Set initial port and timeout values to -1.
 		port = -1;
@@ -90,6 +92,7 @@ public class ServerGUI extends JFrame{
 							log.append("Port Number/timeout not entered before pressing Listen.\n");
 						else {	
 							//Else, set the values of port and timeout to the values contained in the textfields.
+							flag = true; 
 							port = Integer.parseInt(portNum.getText());
 							timeout = Integer.parseInt(timeoutNum.getText());
 							
@@ -111,8 +114,43 @@ public class ServerGUI extends JFrame{
 						}
 					}
 				});
+		
 		close = new JButton("Close");
+		close.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						//Checks to see if listen has been started 
+						if(flag == false)
+						{
+							log.append("Server Not Currently Started\n");
+						}
+						else if(flag == true) {
+						try {
+							//Closes server connection if already listening 
+							server.close();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+					}
+				});
+
 		stop = new JButton("Stop");
+		stop.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						//Check to see if listen has been started
+						if(flag == false)
+						{
+							log.append("Server Not Currently Started\n");
+						}
+						else 
+						{
+							//calls stopListening to set log and status
+							server.stopListening();
+						}
+					}
+				});
 		
 		
 		quit = new JButton("Quit");
