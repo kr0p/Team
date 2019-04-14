@@ -38,6 +38,7 @@ public class ChessTable {
     private Tile sourceTile;
     private Tile destinationTile;
     private Piece humanMovedPiece;
+    private FlipBlack orientation;
     private boolean highlightLegalMoves;
     private boolean isWhite;
     private boolean isBlack;
@@ -60,27 +61,29 @@ public class ChessTable {
         this.chessboard = board;
         this.gameHistoryPanel = new GameHistoryPanel();
         this.takenPiecesPanel = new TakenPiecesPanel();
+        this.isWhite = isWhite;
+        this.isBlack = isBlack;
+        
+        if(isBlack) {
+        	yourTurn = false;
+        	gameFrame.setTitle("Your Alliance is Black. It is your opponent's turn.");
+        	orientation = FlipBlack.BLACKORIENT;
+        }
+        if(isWhite) {
+        	yourTurn = true;
+        	gameFrame.setTitle("Your Alliance is White. It is your turn");
+        	orientation = FlipBlack.WHITEORIENT;
+        }
+        
         this.boardPanel = new BoardPanel();
         this.moveLog = new MoveLog();
         this.highlightLegalMoves = true;
-        this.isWhite = isWhite;
-        this.isBlack = isBlack;
         this.gameFrame.add(this.takenPiecesPanel, BorderLayout.WEST);
         this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 
         this.gameFrame.setVisible(true);
-        
-        System.out.println(isBlack);
-        
-        if(isBlack) {
-        	yourTurn = false;
-        	gameFrame.setTitle("Your Alliance is Black. It is your opponent's turn.");
-        }
-        if(isWhite) {
-        	yourTurn = true;
-        	gameFrame.setTitle("Your Alliance is White. It is your turn");
-        }
+        boardPanel.drawBoard(chessboard);
     }
     
     public void updateBoard(Board board, int tileID, Tile sourceTile, Piece humanMovedPiece, 
@@ -118,18 +121,23 @@ public class ChessTable {
         if(yourTurn) {
         	yourTurn = false;
         	
-        	if(isBlack)
+        	if(isBlack) {
         		gameFrame.setTitle("Your Alliance is Black. It is your opponent's turn.");
-        	else if(isWhite)
+        	}
+        	else if(isWhite) {
         		gameFrame.setTitle("Your Alliance is White. It is your opponent's turn.");
+        	}
         }
         else if(!yourTurn) {
         	yourTurn = true;
         	
-        	if(isBlack)
+        	if(isBlack) {
         		gameFrame.setTitle("Your Alliance is Black. It is your turn.");
-        	else if(isWhite)
+        	}	
+        	else if(isWhite) {
         		gameFrame.setTitle("Your Alliance is White. It is your turn.");
+        	}
+        		
         }
     }
     
@@ -160,7 +168,41 @@ public class ChessTable {
         return fileMenu;
     }
 
-
+    public enum FlipBlack{
+    	WHITEORIENT{
+    		@Override
+    		List<TilePanel> iterate(final List<TilePanel> boardTiles){
+    			return boardTiles;
+    		}
+    		
+    		@Override
+    		FlipBlack flip(){
+    			return BLACKORIENT;
+    		}
+    	},
+    	
+    	BLACKORIENT{
+    		@Override
+    		List<TilePanel> iterate(final List<TilePanel> boardTiles){
+    			List<TilePanel> blackBoard = new ArrayList<TilePanel>();
+    			
+    			for(int i = boardTiles.size() - 1; i >= 0; i--) {
+    				blackBoard.add(boardTiles.get(i));
+    			}
+    			
+    			return blackBoard;
+    		}
+    		
+    		@Override
+    		FlipBlack flip(){
+    			return WHITEORIENT;
+    		}
+    	};
+    	
+    	abstract List<TilePanel> iterate(final List<TilePanel> boardTiles);
+    	abstract FlipBlack flip();
+    }
+    
     public class BoardPanel extends JPanel{
 		private static final long serialVersionUID = 1L;
 		final List<TilePanel> boardTiles;
@@ -187,7 +229,7 @@ public class ChessTable {
             System.out.println("------------------------------>\n");
 
             removeAll();
-            for(final TilePanel tilePanel : boardTiles){
+            for(final TilePanel tilePanel : orientation.iterate(boardTiles)){
                 tilePanel.drawTile(board);
                 add(tilePanel);
             }
